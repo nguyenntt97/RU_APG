@@ -30,19 +30,12 @@ function onMessageHandler (target, context, msg, self) {
   const commandName = msg.trim();
 
   // If the command is known, let's execute it
-  if (commandName === '!dice') {
-    const num = rollDice();
-    client.say(target, `You rolled a ${num}`);
+  if (commandName === '!up') {
+    client.say(target, `Go up`);
     console.log(`* Executed ${commandName} command`);
   } else {
     console.log(`* Unknown command ${commandName}`);
   }
-}
-
-// Function called when the "dice" command is issued
-function rollDice () {
-  const sides = 6;
-  return Math.floor(Math.random() * sides) + 1;
 }
 
 // Called every time the bot connects to Twitch chat
