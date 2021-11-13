@@ -1,51 +1,41 @@
 
-const { spawn } = require('child_process');
-const readline = require('readline');
-const { keyboard, Key, sleep } = require('@nut-tree/nut-js');
-
+// const { spawn } = require('child_process');
+var ref = require('ref');
+const ffi = require('ffi');
 // var keypress = require('keypress');
 
-var my_game = spawn('../MyPacman.exe');
-// my_game.stdin.on("data", d => {
-//     console.log(`Data in: ${d}`);
-// })
+var voidPtr = ref.refType(ref.types.void);
+var stringPtr = ref.refType(ref.types.CString);
 
-// process.stdin.pipe(my_game.stdin);
-// process.stdin.resume();
+var WMsg = {
+    WM_KEYUP: 0x0101,
+    WM_KEYDOWN: 0x0100
+}
 
-// process.stdin.setEncoding('utf8');
+var KB = {
+    RIGHT: 0x0027
+}
 
-// process.stdin.on('data', (key) => {
-//     console.log(`Pressed ${key}`);
-//     my_game.stdin.write(key);
-
-//     if (key === '\u0003') {
-//         process.exit();
-//     }
-// })
-
-my_game.on('close', code => {
-    console.log(`Child process exited with code ${code}`);
+var user32 = ffi.Library('user32', {
+    'FindWindowA': [
+        'pointer', ['string', 'string']
+    ],
+    'SendMessageA': [
+        'pointer', ['pointer', 'int32', 'int32', 'int32']
+    ]
 });
-process.stdin.on('data', (key) => {
-    console.log(`Pressed ${key}`);
-    my_game.stdin.write(key);
 
-    if (key === '\u0003') {
-        process.exit();
-    }
-})
 
-readline.emitKeypressEvents(my_game.stdin);
-process.stdin.setRawMode(true);
-process.stdin.resume();
+var process = user32.FindWindowA(null, "Stage 1")
+console.log("Process ID", process)
+setTimeout(() => {
+    var rs = user32.SendMessageA(process, WMsg.WM_KEYDOWN, KB.RIGHT, 0)
+    rs = user32.SendMessageA(process, WMsg.WM_KEYUP, KB.RIGHT, 0)
+    console.log("Executed: ", rs)
+}, 3000)
 
-(async () => {
-    await sleep(3000);
-    keyboard.type(Key.Up);
-    console.log(`Done!`)
+// var current = ffi.Library('/test', {
+//     'atoi': ['int', ['string']]
+// });
+// console.log(current.atoi('1234')) // 2
 
-    await sleep(3000);
-    keyboard.type(Key.Right);
-    console.log(`Done!`)
-})();
