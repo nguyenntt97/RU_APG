@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nut-tree/nut-js": "^1.7.0",
+    "keypress": "^0.2.1",
     "tmi.js": "^1.8.5"
   }
 }
