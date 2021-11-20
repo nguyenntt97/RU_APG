@@ -24,7 +24,7 @@ class Bot(commands.Bot):
     async def goUp(self, ctx: commands.Context):
         win32api.PostMessage(self.hwnd,
                              win32con.WM_KEYDOWN,
-                             win32con.VK_UP,
+                             win32con.VK_UP, 
                              int(0x01480001))
         time.sleep(1)
         win32api.PostMessage(self.hwnd,
