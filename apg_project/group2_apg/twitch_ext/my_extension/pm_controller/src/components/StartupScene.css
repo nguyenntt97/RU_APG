@@ -121,7 +121,6 @@ html {
 
 body {
     background-color: rgba(0, 0, 0, 0.87);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    text-align: center;
 }

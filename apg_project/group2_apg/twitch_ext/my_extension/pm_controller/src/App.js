@@ -1,12 +1,12 @@
 // import logo from './logo.svg';
 import React from 'react';
 import './App.css';
-import StartupScene from './components/StartupScene';
+import MainScene from './components/MainScene';
 
 function App() {
-  return (
-    <StartupScene/>
-  );
+    return (
+      <MainScene/>
+    );
 }
 
 export default App;
