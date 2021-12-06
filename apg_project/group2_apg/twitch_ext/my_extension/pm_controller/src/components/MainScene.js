@@ -8,13 +8,16 @@ import {
 
 import StartupScene from './StartupScene';
 import MyAppBar from './AppBar';
+import LoginScene from './LoginScene';
 
 function MainScene() {
     return [
-        <MyAppBar />,
         <Router>
+            <MyAppBar />
             <Routes>
-                <Route exact path="/" element={<StartupScene />} />
+                <Route path="/" element={<StartupScene />} />
+                <Route path="/panel" element={<StartupScene />} />
+                <Route path="/login" element={<LoginScene />} />
             </Routes>
         </Router>
     ]
