@@ -1,11 +1,9 @@
-import {React, useEffect} from 'react';
-import { useNavigate } from 'react-router';
+import React, { useEffect } from 'react';
 import "./StartupScene.css";
 
-function StartupScene() {
-    let navigate = useNavigate()
-    const handleKeyDown = (e) => {
-        navigate('/main')
+export default function StartupScene(props) {
+    const handleKeyDown = e => {
+        props.hist.push('/panel.html/main')
     }
 
     useEffect(() => {
@@ -23,7 +21,6 @@ function StartupScene() {
                 <div />
             </div>
             <div className="press-enter">PRESS ANY TO START</div>
-        </div>);
+        </div>
+    );
 }
-
-export default StartupScene;

@@ -1,0 +1,24 @@
+
+.control-board {
+    position: relative;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+    top: 30px;
+}
+
+.control-board > div > span {
+    display: inline-block;
+    font-size: 2em;
+    border: 1px solid #ffee00;
+    border-radius: 10%;
+    margin: 0.2em;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    width: 1em;
+}
+
+.control-board .pressed {
+    background: white;
+    color: black;
+}

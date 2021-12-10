@@ -1,51 +1,39 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { ThemeProvider } from '@emotion/react';
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-  useNavigate,
-  useLocation
-} from "react-router-dom";
-
-import MyTheme from './Theme';
+import './AppBar.css'
+import { Link } from 'react-router-dom';
+import { API_BASE } from '../util/Authentication/Utils';
 
 export default function MyAppBar(props) {
-  let loggedIn = props.loggedIn
-  let username = props.username
+	const [userId, setUserId] = useState('')
 
-  return (
-    <ThemeProvider theme={MyTheme}>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography component="div" sx={{ flexGrow: 1 }} />
-            {loggedIn ?
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>username</Typography> :
-              <Button color="inherit">Login</Button>
-            }
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </ThemeProvider>
-  );
+	useEffect(() => {
+		let profile = props.profile
+		setUserId(profile['opaque_id'])
+	}, [props.profile])
+
+	return (
+		<div className="App-bar">
+			<div><Link to="/panel.html">Group 2</Link></div>
+			<div>{userId ? userId : ["Guest", (<a onClick={e => {
+				const siteUrl = `${API_BASE}/oauth-authorized`;
+
+				let url = `https://id.twitch.tv/oauth2/authorize?state=${profile['opaque_id']}&client_id=${profile['client_id']}&response_type=code&scope=${encodeURI("chat:read chat:edit")}&redirect_uri=${encodeURIComponent(siteUrl)}`
+
+				let authWind = window.open('/panel.html', 'Signin', 'height=600, width=450')
+
+				if (window.focus) {
+					authWind.focus()
+				}
+
+				authWind.location.href = url
+				let handleAuthClosed = setInterval(() => {
+					if (authWind.closed) {
+						location.href = '/panel.html'
+						clearInterval(handleAuthClosed)
+					}
+				}, 1000)
+			}}>Login</a>)]}</div>
+		</div>
+	);
 }
