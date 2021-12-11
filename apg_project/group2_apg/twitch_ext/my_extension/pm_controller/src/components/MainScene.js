@@ -27,12 +27,17 @@ export default function MainScene() {
         useEffect(() => {
             let uri = `${API_BASE}/authorize?opaque-id=${userProfile['opaque_id']}`
             fetch(uri)
-                .then(rs => rs.json())
                 .then(rs => {
-                    console.log(rs['access_token'])
+                    if (!rs.ok) {
+                        return rs.text().then(t => { throw new Error(`(Code ${rs.status}) ${t}`) })
+                    }
+                    return rs.json()
+                })
+                .then(rs => {
                     userProfile['access_token'] = rs['access_token']
                     userProfile['expires_at'] = rs['expires_at']
                     setProfile(userProfile)
+                    console.log('new profile ', userProfile)
                 })
                 .catch(err => {
                     setErrMsg(`${err}`)
@@ -62,7 +67,7 @@ export default function MainScene() {
                 <StartupScene hist={history} />
             </Route>
             <Route key='main' path="/panel.html/main">
-                <ControlScene />
+                <ControlScene profile={userProfile} />
             </Route>
             <Route key='startup'>
                 <StartupScene hist={history} />

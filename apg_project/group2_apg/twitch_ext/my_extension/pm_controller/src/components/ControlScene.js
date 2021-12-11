@@ -1,19 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import './ControlScene.css'
 
-export default function ControlScene() {
+export default function ControlScene(props) {
     const [errMsg, setErrMsg] = useState("")
     const [pressedUp, setPressUp] = useState(false)
     const [pressedDown, setPressDown] = useState(false)
     const [pressedRight, setPressRight] = useState(false)
     const [pressedLeft, setPressLeft] = useState(false)
     const [lastPress, setLastPress] = useState(0)
+    const [ircWS, setIrcWS] = useState(null)
+
+    var profile = props.profile
+
+    let token = profile['access_token']
+
+    useEffect(() => {
+        var ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443')
+        ws.onopen = e => {
+            ws.send(`PASS oauth:${token}`)
+            ws.send(`NICK nguyenntt`)
+            ws.send(`JOIN #nguyenntt`)
+        }
+
+        ws.onmessage = e => {
+            console.log(e.data)
+        }
+        
+        setIrcWS(ws)
+    }, [])
 
     const onKeyCommand = (cmd) => {
         let now = Date.now()
         if ((now - lastPress) > 1000) {
             setLastPress(now);
-
+            if (ircWS.readyState === WebSocket.OPEN) {
+                ircWS.send(`PRIVMSG #nguyenntt :${cmd}`)
+            }
             // let reqOpt = {
             //     method: 'POST',
             //     headers: {

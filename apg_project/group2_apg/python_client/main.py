@@ -84,6 +84,7 @@ class Bot(commands.Bot):
     async def event_message(self, message):
         if message.echo:
             return
+
         print(f'Said {message.content}')
 
         await self.handle_commands(message)
