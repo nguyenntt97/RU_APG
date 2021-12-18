@@ -7,72 +7,40 @@ import {
 
 import StartupScene from './StartupScene';
 import ControlScene from './ControlScene';
-import { API_BASE, DEFAULT_CLIENT_ID, DEFAULT_OPAQUE_ID } from '../util/Authentication/Utils';
+import { API_BASE, cloneIt, fetchApi, notiErr } from '../util/Authentication/Utils';
 import MyAppBar from './AppBar';
 import './Snackbar.css'
 
-export default function MainScene() {
-    const twitch = window.Twitch ? window.Twitch.ext : null;
-    const [errMsg, setErrMsg] = useState('')
-
-    const [userProfile, setProfile] = useState({
-        'opaque_id': DEFAULT_OPAQUE_ID,
-        'ext_token': '',
-        'client_id': DEFAULT_CLIENT_ID,
-        'channel_id': '',
-        'access_token': ''
+const getDefaultProfile = () => {
+    return ({
+        'user_id': null,
+        'opaque_id': null,
+        'ext_token': null,
+        'client_id': null,
+        'channel_id': null,
+        'access_token': null,
+        'username': null
     })
+}
 
-    if (twitch) {
-        useEffect(() => {
-            let uri = `${API_BASE}/authorize?opaque-id=${userProfile['opaque_id']}`
-            fetch(uri)
-                .then(rs => {
-                    if (!rs.ok) {
-                        return rs.text().then(t => { throw new Error(`(Code ${rs.status}) ${t}`) })
-                    }
-                    return rs.json()
-                })
-                .then(rs => {
-                    userProfile['access_token'] = rs['access_token']
-                    userProfile['expires_at'] = rs['expires_at']
-                    setProfile(userProfile)
-                    console.log('new profile ', userProfile)
-                })
-                .catch(err => {
-                    setErrMsg(`${err}`)
-                    const timer = setTimeout(() => {
-                        setErrMsg('')
-                        clearTimeout(timer)
-                    }, 5000)
-                })
+export default function MainScene() {
+    const [errMsg, setErrMsg] = useState('')
+    const [userProfile, setProfile] = useState(getDefaultProfile())
 
-            twitch.onAuthorized((auth) => {
-                userProfile['opaque_id'] = auth.userId
-                userProfile['ext_token'] = auth.token
-                userProfile['client_id'] = auth.clientId
-                userProfile['channel_id'] = auth.channelId
-                setProfile(profile)
-            })
-        }, [])
-    }
-
+    console.log("MainScene", userProfile)
 
     let history = useHistory()
 
     return [
-        <MyAppBar profile={userProfile} />,
-        <Switch>
-            <Route key='panel' exact path="/panel.html">
-                <StartupScene hist={history} />
+        <MyAppBar profile={userProfile} hist={history} onProfileStateChange={setProfile} />,
+        (<Switch>
+            <Route key='main' path="/main">
+                <ControlScene profile={userProfile} hist={history} />
             </Route>
-            <Route key='main' path="/panel.html/main">
-                <ControlScene profile={userProfile} />
+            <Route key='panel'>
+                <StartupScene hist={history} profile={userProfile} />
             </Route>
-            <Route key='startup'>
-                <StartupScene hist={history} />
-            </Route>
-        </Switch>,
-        <div id="snackbar" className={`${(errMsg.length !== 0) ? "show-bar" : ""}`}>{errMsg}</div>
+        </Switch>),
+        < div id="snackbar" className={`${(errMsg.length !== 0) ? "show-bar" : ""}`}> {errMsg}</div >
     ]
 }

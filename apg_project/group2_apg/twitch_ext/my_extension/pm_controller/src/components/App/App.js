@@ -1,6 +1,6 @@
 import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 import MainScene from '../MainScene';
 import './App.css'
@@ -85,13 +85,13 @@ export default class App extends React.Component {
             // this.state.finishedLoading && 
             this.state.isVisible) {
             return (
-                <BrowserRouter>
+                <HashRouter basename="/">
                     <div className="App">
                         <div className={this.state.theme === 'light' ? 'App-light' : 'App-dark'} >
                             <MainScene />
                         </div>
                     </div>
-                </BrowserRouter>
+                </HashRouter>
             )
         } else {
             return (

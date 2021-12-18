@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { notiErr } from '../util/Authentication/Utils'
 import './ControlScene.css'
 
 export default function ControlScene(props) {
@@ -10,24 +11,46 @@ export default function ControlScene(props) {
     const [lastPress, setLastPress] = useState(0)
     const [ircWS, setIrcWS] = useState(null)
 
-    var profile = props.profile
-
-    let token = profile['access_token']
+    const showNotiErr = msg => notiErr(msg, setErrMsg, () => setErrMsg(''))
 
     useEffect(() => {
+        var profile = props.profile
+        let token = profile['access_token']
+        let nick = profile['username']
+
+        if (!nick || !token) {
+            console.log('control', location.href, location.href.replaceAll('/main', ''))
+            // showNotiErr('Failed to login to IRC. Return to startup screen!')
+            location.hash = '/'
+            return
+        }
+
         var ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443')
+
         ws.onopen = e => {
             ws.send(`PASS oauth:${token}`)
-            ws.send(`NICK nguyenntt`)
+            console.log(`< PASS oauth:${token}`)
+
+            ws.send(`NICK ${nick}`)
+            console.log(`< NICK ${nick}`)
+
             ws.send(`JOIN #nguyenntt`)
+            console.log(`< JOIN #nguyenntt`)
         }
 
         ws.onmessage = e => {
             console.log(e.data)
         }
-        
+
+        ws.onerror = e => {
+            showNotiErr(`${e}`)
+        }
+
         setIrcWS(ws)
-    }, [])
+        return () => {
+            ws.close()
+        }
+    }, [props.profile])
 
     const onKeyCommand = (cmd) => {
         let now = Date.now()
@@ -35,36 +58,8 @@ export default function ControlScene(props) {
             setLastPress(now);
             if (ircWS.readyState === WebSocket.OPEN) {
                 ircWS.send(`PRIVMSG #nguyenntt :${cmd}`)
+                console.log(`< PRIVMSG #nguyenntt :${cmd}`)
             }
-            // let reqOpt = {
-            //     method: 'POST',
-            //     headers: {
-            //         "Authorization": "Bearer " + token,
-            //         "Client-ID": clientId,
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({
-            //         "text": cmd
-            //     })
-            // }
-
-            // fetch(
-            //     "https://api.twitch.tv/extensions/" +
-            //     clientId +
-            //     "/0.0.1/channels/" +
-            //     channelId +
-            //     "/chat", reqOpt)
-            //     .then(res => {
-            //         if (!res.ok) {
-            //             if (res.status == 429) {
-            //                 setErrMsg("Code " + res.status + ": Too many request")
-            //             }
-            //             let timer = setTimeout(() => {
-            //                 setErrMsg("")
-            //                 clearTimeout(timer)
-            //             }, 5000)
-            //         }
-            //     })
         }
     }
 
@@ -125,27 +120,28 @@ export default function ControlScene(props) {
             window.removeEventListener("keydown", handleKeyDown)
             window.removeEventListener("keyup", handleKeyUp)
         }
-    }, [handleKeyDown])
+    }, [handleKeyDown, handleKeyUp])
 
     return [
-        <div id="snackbar" className={`${(errMsg.length !== 0) ? "show-bar" : ""}`}>{errMsg}</div>,
-        <div className="control-board">
-            <div>
-                <span class={`material-icons ${pressedUp ? "pressed" : ""}`}>
+        <div key={0} id="snackbar" className={`${(errMsg.length !== 0) ? "show-bar" : ""}`}>{errMsg}</div>,
+        <div key={1} className="control-board">
+            <div key={1}>
+                <span className={`material-icons ${pressedUp ? "pressed" : ""}`}>
                     W
                 </span>
             </div>
-            <div>
-                <span class={`material-icons ${pressedLeft ? "pressed" : ""}`}>
+            <div key={2}>
+                <span key={1} className={`material-icons ${pressedLeft ? "pressed" : ""}`}>
                     A
                 </span>
-                <span class={`material-icons ${pressedDown ? "pressed" : ""}`}>
+                <span key={2} className={`material-icons ${pressedDown ? "pressed" : ""}`}>
                     S
                 </span>
-                <span class={`material-icons ${pressedRight ? "pressed" : ""}`}>
+                <span key={3} className={`material-icons ${pressedRight ? "pressed" : ""}`}>
                     D
                 </span>
             </div>
-        </div>
+        </div>,
+        <div key={2} id="snackbar" className={`${(errMsg.length !== 0) ? "show-bar" : ""}`}> {errMsg}</div >
     ]
 }
