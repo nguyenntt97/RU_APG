@@ -1,0 +1,23 @@
+.ranking-board {
+    list-style-type: none;
+    min-width: 120px;
+    max-width: 200px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ranking-board>li {
+    display: flex;
+    padding: 0.1em;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.ranking-board>ul>span {
+    margin-right: 0.1em;
+}

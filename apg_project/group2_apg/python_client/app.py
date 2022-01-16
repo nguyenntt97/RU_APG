@@ -6,16 +6,18 @@ from time import time
 import requests
 import json
 
+from flask_socketio import SocketIO
+
 cache = SimpleCache()
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app)
+socketio = SocketIO(app)
 
 API_HOST = "https://dcaf-2001-ee0-5658-4510-cd9a-9afa-edf2-9bf9.ngrok.io"
 SECRET = "sy81ffkh3kndon1ozcwga1nphuyhyk"
 CLIENT_ID = "qwi88ymktf1qqjpnupb95egrhmj0um"
-
 
 @app.route('/authorize')
 @cross_origin()
@@ -62,6 +64,5 @@ def oauth_authorized():
     else:
         return "Failed to save", 400
 
-
-if __name__ == "__main__":
-    app.run()
+def run():
+    socketio.run(app)

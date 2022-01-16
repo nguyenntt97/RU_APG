@@ -44,14 +44,16 @@ export default function MyAppBar(props) {
 				console.log('Logged in redirect', location.href)
 				clearInterval(handleAuthClosed)
 				location.hash = 'main'
-				doLogin(props.profile['user_id'], rs => {
-
-					let newProfile = cloneIt(props.profile)
-					newProfile['access_token'] = rs['access_token']
-					newProfile['expires_at'] = rs['expires_at']
-					newProfile['username'] = rs['username']
-					setProfile(newProfile)
-				})
+				doLogin(props.profile['user_id'],
+					rs => {
+						let newProfile = cloneIt(props.profile)
+						newProfile['access_token'] = rs['access_token']
+						newProfile['expires_at'] = rs['expires_at']
+						newProfile['username'] = rs['username']
+						setProfile(newProfile)
+					}, err => {
+						console.log(`Login Error: ${err}`)
+					})
 			}
 		}, 1000)
 	}, [props.profile])
@@ -88,9 +90,12 @@ export default function MyAppBar(props) {
 				newProfile['access_token'] = rs['access_token']
 				newProfile['expires_at'] = rs['expires_at']
 				newProfile['username'] = rs['username']
+				newProfile['score'] = parseInt(rs['score'])
 
 				return newProfile
 			})
+		}, err => {
+			console.log(`Login Error: ${err}`)
 		})
 
 		console.log("Authozing profile", newProfile)

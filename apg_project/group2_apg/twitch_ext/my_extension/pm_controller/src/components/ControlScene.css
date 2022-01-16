@@ -1,19 +1,63 @@
+.control-panel {
+    display: flex;
+    position: relative;
+    min-width: 100px;
+    padding: 5px;
+    color: white;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.bet-board {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.bet-board>div>span {
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #ffee00;
+    border-radius: 0.2em;
+    margin: 0.5em;
+    padding: 0.5em;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.bet-board>div>span:active {
+    background: #ffee00;
+    color: black;
+}
+
+h3 {
+    color: #ffee00;
+    margin-bottom: 1em;
+    width: 100%;
+}
 
 .control-board {
     position: relative;
-    width: 50%;
-    left: 25%;
-    right: 25%;
-    top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.control-board > div > span {
+.control-board>div {
+    width: 150px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.control-board>div>span {
     display: inline-block;
     font-size: 2em;
     border: 1px solid #ffee00;
     border-radius: 10%;
     margin: 0.2em;
-    color: white;
     font-family: 'Courier New', Courier, monospace;
     width: 1em;
 }
