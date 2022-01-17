@@ -1,0 +1,10 @@
+.App-bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.App-bar > div {
+    padding: 5px;
+    color: white;
+}

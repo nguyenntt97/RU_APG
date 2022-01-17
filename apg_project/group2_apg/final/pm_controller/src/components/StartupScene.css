@@ -1,0 +1,126 @@
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: .5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.start-stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+}
+
+.start-stage>div:not(.pacman) {
+    padding: 10px 5px;
+}
+
+.press-enter {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-weight: bold;
+    color: #c24343;
+    border: #f50000;
+    text-align: center;
+    margin-top: 2em;
+    animation: blink 1s ease-in-out infinite;
+}
+
+.title {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-weight: bold;
+    font-size: 3em;
+    color: #fed75a;
+    border: #ffee00;
+}
+
+.pacman {
+    left: 50%;
+    position: relative;
+}
+
+.pacman>div:nth-child(1),
+.pacman>div:nth-child(2) {
+    width: 0;
+    height: 0;
+    border: 12.5px solid #fed75a;
+    border-right-color: transparent;
+    border-radius: 50%;
+    left: -60px;
+    animation: rotate_pacman_half_up .5s infinite;
+    position: relative;
+}
+
+.pacman>div:nth-child(2) {
+    animation-name: rotate_pacman_half_down;
+    margin-top: -25px;
+}
+
+.pacman>div:nth-child(3),
+.pacman>div:nth-child(4),
+.pacman>div:nth-child(5) {
+    animation: pacman-balls 1s infinite linear;
+    background-color: #fed75a;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 10px;
+    left: 25px;
+}
+
+.pacman>div:nth-child(3) {
+    animation-delay: -0.66s;
+}
+
+.pacman>div:nth-child(4) {
+    animation-delay: -0.33s;
+}
+
+@keyframes rotate_pacman_half_up {
+    0% {
+        transform: rotate(270deg);
+    }
+    50% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(270deg);
+    }
+}
+
+@keyframes rotate_pacman_half_down {
+    0% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes pacman-balls {
+    75% {
+        opacity: .7;
+    }
+    100% {
+        transform: translateX(-63.75px);
+    }
+}
+
+a {
+    color: #ffee00
+}
+
+body {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.87);
+    text-align: center;
+}

@@ -1,0 +1,60 @@
+{
+  "allowHttpBackend": false,
+  "backendCommand": "",
+  "backendFolderName": "",
+  "certificateExceptions": [],
+  "extensionViews": [],
+  "manifest": {
+    "anchor": "panel",
+    "assetUrls": [],
+    "authorName": "",
+    "bitsEnabled": false,
+    "canInstall": true,
+    "configUrl": "https://vsnlggk4xjrsau9x5m50wcvnyms4fj.ext-twitch.tv/vsnlggk4xjrsau9x5m50wcvnyms4fj/0.0.1/0132b82753407b7ca85c53e5eeba3b16/config.html",
+    "configurationLocation": "none",
+    "description": "",
+    "eulaTosUrl": "",
+    "hasChatSupport": false,
+    "iconUrl": "",
+    "iconUrls": {},
+    "id": "vsnlggk4xjrsau9x5m50wcvnyms4fj",
+    "installationCount": -42,
+    "liveConfigUrl": "",
+    "name": "Pacman_Controller",
+    "panelHeight": 300,
+    "privacyPolicyUrl": "",
+    "requestIdentityLink": false,
+    "requiredBroadcasterAbilities": [],
+    "screenshotUrls": [],
+    "sku": "",
+    "state": "Assets Uploaded",
+    "subscriptionsSupportLevel": "none",
+    "summary": "",
+    "supportEmail": "",
+    "vendorCode": "",
+    "version": "0.0.1",
+    "viewerSummary": "",
+    "viewerUrl": "https://vsnlggk4xjrsau9x5m50wcvnyms4fj.ext-twitch.tv/vsnlggk4xjrsau9x5m50wcvnyms4fj/0.0.1/0132b82753407b7ca85c53e5eeba3b16/index.html",
+    "viewerUrls": {
+      "panel": "https://vsnlggk4xjrsau9x5m50wcvnyms4fj.ext-twitch.tv/vsnlggk4xjrsau9x5m50wcvnyms4fj/0.0.1/0132b82753407b7ca85c53e5eeba3b16/index.html"
+    },
+    "views": {
+      "panel": {
+        "viewerUrl": "https://vsnlggk4xjrsau9x5m50wcvnyms4fj.ext-twitch.tv/vsnlggk4xjrsau9x5m50wcvnyms4fj/0.0.1/0132b82753407b7ca85c53e5eeba3b16/index.html",
+        "height": 300,
+        "canLinkExternalContent": false
+      },
+      "config": {
+        "viewerUrl": "https://vsnlggk4xjrsau9x5m50wcvnyms4fj.ext-twitch.tv/vsnlggk4xjrsau9x5m50wcvnyms4fj/0.0.1/0132b82753407b7ca85c53e5eeba3b16/config.html",
+        "canLinkExternalContent": false
+      }
+    },
+    "whitelistedConfigUrls": [],
+    "whitelistedPanelUrls": []
+  },
+  "frontendCommand": "",
+  "frontendFolderName": "",
+  "name": "Pacman_Controller",
+  "usingRandomFrontendHostingPort": false,
+  "version": 3
+}
