@@ -169,7 +169,7 @@ async def track_tasks(hwnd, bot: Bot):
     while True:
         await track_score(hwnd, bot)
 
-        if not i % 10:
+        if not i % 20:
             if await track_round(bot):
                 i = 0
             else:

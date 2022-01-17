@@ -40,8 +40,8 @@ class AI_PACMAN(object):
     def __update_position(self, frame):
         self.p1 = self.__get_position(frame, self.bot1)
         self.p2 = self.__get_position(frame, self.bot2)
-        # self.p3 = self.__get_position(frame, self.bot3)
-        self.p4 = self.__get_position(frame, self.bot4)
+        self.p3 = self.__get_position(frame, self.bot3)
+        # self.p4 = self.__get_position(frame, self.bot4)
         self.pp = self.__get_position(frame, self.pacman)
 
     def __exist_wall(self, p1, p2):
@@ -56,12 +56,12 @@ class AI_PACMAN(object):
         return math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
 
     def __fitness(self, pp):
-        temp_p = [self.p1, self.p2, self.p4]
+        temp_p = [self.p1, self.p2, self.p3]
         d1 = 0.5 if self.p1 == 0 else self.__cal_dis(self.p1, pp)
         d2 = 0.5 if self.p2 == 0 else self.__cal_dis(self.p2, pp)
-        # d3 = 1 if self.p3 == 0 else self.__cal_dis(self.p3, pp)
-        d4 = 0.5 if self.p4 == 0 else self.__cal_dis(self.p4, pp)
-        temp_d = [d1, d2, d4]
+        d3 = 0.5 if self.p3 == 0 else self.__cal_dis(self.p3, pp)
+        # d4 = 0.5 if self.p4 == 0 else self.__cal_dis(self.p4, pp)
+        temp_d = [d1, d2, d3]
         index = np.argmin(temp_d)
 
         if temp_d[index] >= 1 and temp_d[index] < 2.5:
